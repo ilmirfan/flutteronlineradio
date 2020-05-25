@@ -17,7 +17,8 @@ class _MyAppState extends State<MyApp> {
   static const streamUrl = "https://castcloud.pvtwebs.com:8091/stream";
 
   bool isPlaying;
-  // bool isVisible = true;
+   bool playVisibility = true;
+   bool pauseVisibility = false;
 
   @override
   void initState() {
@@ -73,48 +74,36 @@ class _MyAppState extends State<MyApp> {
                         fontSize: 14,
                         color: Colors.white)),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    FlatButton(
-                      child: Icon(isPlaying
-                          ? Icons.play_circle_filled
-                          : Icons.pause_circle_filled),
-                      onPressed: () {
-                        FlutterRadio.playOrPause(url: streamUrl);
-                        playingStatus();
-                      },
-                    ),
-
-                    // FlatButton(
-                    //   child: Icon(Icons.pause_circle_filled),
-                    //   onPressed: () {
-                    //     FlutterRadio.playOrPause(url: streamUrl);
-                    //     playingStatus();
-                    //   },
-                    // ),
-                    // FlatButton(
-                    //   child: Icon(Icons.stop),
-                    //   onPressed: () {
-                    //     FlutterRadio.playOrPause(url: streamUrl);
-                    //     playingStatus();
-                    //   },
-                    // ),
-                  ],
-                ),
-                IconButton(
+               SizedBox(height: 40,),
+                Visibility(child:  IconButton(
                     icon: Icon(Icons.play_circle_filled),
-                    iconSize: 60,
+                    iconSize: 80,
                     color: Colors.white,
                     onPressed: () {
+                      setState(() {
+                        playVisibility = false;
+                        pauseVisibility = true;
+                      });
                       FlutterRadio.playOrPause(url: streamUrl);
                       playingStatus();
-                    })
-
-                // Text(
-                //   'Check Playback Status: $isPlaying',
-                //   style: TextStyle(fontSize: 25.0),
-                // )
+                    }),visible: playVisibility,
+),
+Visibility(child:  IconButton(
+                    icon: Icon(Icons.pause_circle_filled),
+                    iconSize: 80,
+                    color: Colors.white,
+                    onPressed: () {
+                      setState(() {
+                        
+                        pauseVisibility = false;
+                        playVisibility = true;
+                      });
+                      FlutterRadio.playOrPause(url: streamUrl);
+                      playingStatus();
+                    }),visible: pauseVisibility,
+)
+               
+                
               ],
             )),
           ),
